@@ -200,10 +200,10 @@ tinycss2==1.2.1
 toml==0.10.2
 tomli==2.0.1
 toolz==0.12.0
---extra-index-url https://data.pyg.org/whl/ torch==1.12.1+cu116
-torch-geometric==2.3.1
---extra-index-url https://download.pytorch.org/whl/torchaudio/ torchaudio==0.12.1+cu116
---extra-index-url https://download.pytorch.org/whl/torchvision/ torchvision==0.13.1+cu116
+--extra-index-url https://download.pytorch.org/whl/torch==1.12.1+cu116
+--extra-index-url https://download.pytorch.org/whl/torchaudio==0.12.1+cu116
+--extra-index-url https://download.pytorch.org/whl/torchvision==0.13.1+cu116
+--extra-index-url https://data.pyg.org/whl/torch-geometric==2.3.1
 tornado==6.3.2
 tqdm==4.65.0
 trace-updater==0.0.9.1
