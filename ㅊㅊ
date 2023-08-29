@@ -1,0 +1,47 @@
+if st.button("Train LSTM Models for EU & US"):
+    progress_bar = st.progress(0)
+
+    total_categories = 2  # EU & US
+    total_epochs = total_categories * epochs  # Total number of epochs for both categories combined
+
+    for index, category in enumerate(['EU', 'US']):
+        category_dataset = dataset[dataset['Category'] == category]
+        category_weight = st.session_state[f"{category}_weight"]
+
+        # Apply selected weighting function to the data before preprocessing and training
+        if st.session_state["weighting_func"] == "weighted_peak":
+            category_peak_threshold = st.session_state.get(f"{category}_peak_threshold", None)
+            if category_peak_threshold:
+                weighted_data = weighted_peak(category_dataset['VALUE'].values, category_peak_threshold, category_weight)
+                category_dataset['VALUE'] = weighted_data
+                lstm_model, model_dif = preprocess_and_train(category_dataset, category, window_size, epochs, None, category_weight, category_peak_threshold, progress_bar, total_epochs)
+        else:  # weighted_anomaly_peak
+            category_section_threshold = st.session_state.get(f"{category}_section_threshold", None)
+            if category_section_threshold:
+                weighted_data = weighted_section(category_dataset['VALUE'].values, category_section_threshold, category_weight)
+                category_dataset['VALUE'] = weighted_data
+                lstm_model, model_dif = preprocess_and_train(category_dataset, category, window_size, epochs, category_section_threshold, category_weight, None, progress_bar, total_epochs)
+
+        st.session_state[f"{category}_lstm_model"] = lstm_model
+        st.session_state[f"{category}_model_dif"] = model_dif
+
+    st.write("LSTM models trained for both EU and US!")
+
+
+
+
+def preprocess_and_train(category_dataset, category, window_size, epochs, category_section_threshold, category_weight, peak_threshold, progress_bar=None, total_epochs=None):
+    # [Your preprocessing code here...]
+    
+    for epoch in range(epochs):
+        # [Your LSTM training code for one epoch...]
+        
+        # After each epoch, if we have a progress bar and total epochs, update the progress
+        if progress_bar and total_epochs:
+            current_progress = progress_bar.progress()
+            progress_increment = 1.0 / total_epochs
+            progress_bar.progress(current_progress + progress_increment)
+
+    # [Rest of your post-processing code...]
+
+    return lstm_model, model_dif
