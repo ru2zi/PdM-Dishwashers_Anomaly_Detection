@@ -1,22 +1,26 @@
 import numpy as np
+import time
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import pandas as pd 
-import time
-
+import os
+from scipy import stats
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
+from IPython.display import clear_output
 from scipy.signal import find_peaks
-from scipy import stats
 from keras.layers import LSTM, RepeatVector, TimeDistributed, Dense, Dropout
 
 import torch
+import random
+import time
 from sklearn.utils import check_array
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
+
 from tqdm import tqdm
 from multiprocessing import Pool
 from torch.utils.data import DataLoader
@@ -124,7 +128,7 @@ class Silency(object):
         return score
 
 
-def sr_time_series(time_series, amp_window_size=15, series_window_size=15, score_window_size=5):
+def sr_time_series(time_series, amp_window_size=5, series_window_size=15, score_window_size=5):
     # Initialize the Silency class with given window sizes
     silency_transformer = Silency(amp_window_size, series_window_size, score_window_size)
 
@@ -175,33 +179,47 @@ def visualize_data(data, sr_data, fft_data_magnitude, category):
     return fig
 
 
+from keras.models import Sequential
+from keras.layers import LSTM, Dense, Dropout
+from keras.optimizers import Adam
+
 def create_lstm_model(window_size):
     model = Sequential()
     
-    # 첫 번째 LSTM 층
+    # 첫 번째 LSTM 계층
     model.add(LSTM(128, input_shape=(window_size, 1), return_sequences=True))
-    model.add(Dropout(0.1))  # Dropout 추가
+    model.add(Dropout(0.2))  # 첫 번째 드롭아웃 계층
     
-    # 두 번째 LSTM 층
-    model.add(LSTM(128, return_sequences=True))
-    model.add(Dropout(0.1))
-
-    # 세 번째 LSTM 층
-    model.add(LSTM(128))
-    model.add(Dropout(0.1))
+    # 두 번째 LSTM 계층
+    model.add(LSTM(64, return_sequences=True))
+    model.add(Dropout(0.2))  # 두 번째 드롭아웃 계층
     
-    model.add(Dense(1))  # 출력층
+    # 세 번째 LSTM 계층
+    model.add(LSTM(32, return_sequences=False))
+    model.add(Dropout(0.2))  # 세 번째 드롭아웃 계층
     
-    model.compile(optimizer='adam', loss='mean_squared_error')
+    # 출력 계층
+    model.add(Dense(1, activation='linear'))
+    
+    # Optimizer 설정
+    optimizer = Adam(learning_rate=0.001)
+    
+    # 모델 컴파일
+    model.compile(optimizer=optimizer, loss='mean_squared_error')
+    
     return model
 
 
-def create_dataset(dataset, look_back):
+
+
+
+
+def create_dataset(dataset, window_size):
     dataX, dataY = [], []
-    for i in range(len(dataset)-look_back-1):
-        a = dataset[i:(i+look_back)]
+    for i in range(len(dataset)-window_size-1):
+        a = dataset[i:(i+window_size)]
         dataX.append(a)
-        dataY.append(dataset[i + look_back])
+        dataY.append(dataset[i + window_size])
     return np.array(dataX), np.array(dataY)
 
 
@@ -243,6 +261,8 @@ def weighted_peak(data, peak_threshold, weight):
     return weighted_data
 
 
+from keras.callbacks import EarlyStopping
+
 def preprocess_and_train_for_category(dataset, category, window_size, epochs, weight, weighting_func, section_threshold=None, peak_threshold=None):
     data_subset = dataset[dataset['Category'] == category]['VALUE'].values
     if len(data_subset) == 0:
@@ -263,8 +283,18 @@ def preprocess_and_train_for_category(dataset, category, window_size, epochs, we
     X, y = create_dataset(SR_data, window_size)
     X = X.reshape(X.shape[0], window_size, 1)
 
+    # Split data into train and validation sets
+    train_size = int(len(X) * 0.9)
+    X_train, X_val = X[:train_size], X[train_size:]
+    y_train, y_val = y[:train_size], y[train_size:]
+
+    # Create and train LSTM model
     lstm_model = create_lstm_model(window_size)
-    lstm_model.fit(X, y, epochs=epochs, batch_size=64)
+    
+    # Early stopping callback
+    early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
+
+    lstm_model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=epochs, batch_size=64, shuffle=False, callbacks=[early_stop])
 
     SR_data_dif = SR_data.reshape(-1, 1)
     model_configs = {
@@ -390,7 +420,7 @@ def real_time_visualization(real_data, model, model_dif, window_size, weight, bu
 
         plot_placeholder.plotly_chart(fig, use_container_width=True)
 
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     return all_windows, all_predictions, all_anomaly_scores, all_errors
 
@@ -589,7 +619,7 @@ def app():
         return
 
     for category in ['EU', 'US']:
-        st.subheader(f"{category} Thresholds")
+        st.subheader(f"{category} control")
 
         # Depending on the weighting function selected, display the relevant input field
         if weighting_func == "weighted_section":
