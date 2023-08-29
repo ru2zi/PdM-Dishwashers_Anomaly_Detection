@@ -1,40 +1,32 @@
-
-
 import numpy as np
 import time
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
-
-import streamlit as st
-import pandas as pd  # Assuming you're loading the data using pandas.
-import os
-
-from scipy import stats
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import streamlit as st
+import pandas as pd 
+import os
+from scipy import stats
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
-
 from IPython.display import clear_output
 from scipy.signal import find_peaks
-
 from keras.layers import LSTM, RepeatVector, TimeDistributed, Dense, Dropout
 
-import numpy as np
 import torch
 import random
 import time
 from sklearn.utils import check_array
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
+
 from tqdm import tqdm
 from multiprocessing import Pool
 from torch.utils.data import DataLoader
 from torch_geometric.loader import DataLoader as pyGDataLoader
-from algorithms import net_torch
 
+import json
 
 class DIF:
 
@@ -474,7 +466,6 @@ def series_filter(values, kernel_size=3):
 
 def extrapolate_next(values):
 
-
     last_value = values[-1]
     slope = [(last_value - v) / i for (i, v) in enumerate(values[::-1])]
     slope[0] = 0
@@ -502,7 +493,6 @@ class Silency(object):
         self.score_window_size = score_window_size
 
     def transform_silency_map(self, values):
-
 
         freq = np.fft.fft(values)
         mag = np.sqrt(freq.real ** 2 + freq.imag ** 2)
@@ -708,9 +698,6 @@ def preprocess_and_train(dataset, category, window_size, epochs, weight, weighti
 
 
 
-
-
-import time  # Ensure you have this if you use time.sleep()
 
 def visualize_results(real, all_predictions, all_anomaly_scores, all_errors, category, window_size):
     transformed_real = sr_time_series(np.array(real))
@@ -970,7 +957,6 @@ def ndarray_to_list(obj):
     else:
         return obj
 
-import json
 
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -981,8 +967,6 @@ class NumpyEncoder(json.JSONEncoder):
         return super(NumpyEncoder, self).default(obj)
 
 
-    
-import json
 
 def app():
     st.title("Real-Time Visualizations for EU & US Data")
