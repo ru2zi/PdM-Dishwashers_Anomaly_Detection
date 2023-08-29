@@ -1,44 +1,13 @@
-# Basic libraries
 numpy==1.23.5
-pandas==1.5.3
-scipy==1.11.1
-
-# Plotly for visualizations
 plotly==5.15.0
-
-# Streamlit for web app
 streamlit==1.2.0
-
-# TensorFlow
-tensorboard==2.10.1
-tensorboard-data-server==0.6.1
-tensorboard-plugin-wit==1.8.1
+pandas==1.5.3
 tensorflow==2.10.0
-tensorflow-estimator==2.10.0
 tensorflow-gpu==2.10.0
-tensorflow-io-gcs-filesystem==0.31.0
-
-# Keras 
+tensorflow-estimator==2.10.0
 keras==2.10.0
-Keras-Preprocessing==1.1.2
-
-# PyTorch
---find-links https://download.pytorch.org/whl/torch_stable.html
-pytorch==1.7.1+cu110
-torchvision==0.8.2+cu110
-
-# Sklearn for preprocessing and IsolationForest
-scikit-base==0.5.0
+torch==1.12.1+cu116
+torch-geometric==2.3.1
+torchvision==0.13.1+cu116
 scikit-learn==1.2.2
-scikit-plot==0.3.7
-
-# Miscellaneous
 tqdm==4.65.0
-multiprocess==0.70.15
-ipython==8.14.0
-ipython-genutils==0.2.0
-json5==0.9.14
-jsonpointer==2.4
-jsonschema==4.18.6
-jsonschema-specifications==2023.7.1
-
