@@ -1,26 +1,22 @@
 import numpy as np
-import time
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import pandas as pd 
-import os
-from scipy import stats
+import time
+
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
-from IPython.display import clear_output
 from scipy.signal import find_peaks
+from scipy import stats
 from keras.layers import LSTM, RepeatVector, TimeDistributed, Dense, Dropout
 
 import torch
-import random
-import time
 from sklearn.utils import check_array
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
-
 from tqdm import tqdm
 from multiprocessing import Pool
 from torch.utils.data import DataLoader
