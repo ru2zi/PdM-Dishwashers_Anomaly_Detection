@@ -23,10 +23,9 @@ keras==2.10.0
 Keras-Preprocessing==1.1.2
 
 # PyTorch
-pytorch
-torchvision=
-torchaudio
-pytorch-cuda
+--find-links https://download.pytorch.org/whl/torch_stable.html
+pytorch==1.7.1+cu110
+torchvision==0.8.2+cu110
 
 # Sklearn for preprocessing and IsolationForest
 scikit-base==0.5.0
