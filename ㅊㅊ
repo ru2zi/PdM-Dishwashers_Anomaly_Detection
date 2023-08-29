@@ -1,3 +1,40 @@
+def preprocess_and_train_for_category(dataset, category, window_size, epochs, weight, weighting_func, section_threshold=None, peak_threshold=None):
+    data_subset = dataset[dataset['Category'] == category]['VALUE'].values
+    if len(data_subset) == 0:
+        st.write(f"No data found for category {category}")
+        return None, None
+
+    # Choosing the weighting function based on the user's selection
+    if weighting_func == "weighted_peak":
+        operation_data = weighted_peak(data_subset, peak_threshold, weight)
+    elif weighting_func == "weighted_section":
+        operation_data = weighted_section(data_subset, section_threshold, weight)
+    else:
+        operation_data = data_subset.copy()
+
+    # SR_data 변환 수행
+    SR_data = sr_time_series(operation_data)
+
+    X, y = create_dataset(SR_data, window_size)
+    X = X.reshape(X.shape[0], window_size, 1)
+
+    lstm_model = create_lstm_model(window_size)
+    lstm_model.fit(X, y, epochs=epochs, batch_size=64)
+
+    SR_data_dif = SR_data.reshape(-1, 1)
+    model_configs = {
+        'n_ensemble': 100,
+        'n_estimators': 8,
+        'max_samples': 'auto',
+        'batch_size': 1024,
+        'n_processes': 4
+    }
+    model_dif = DIF(**model_configs)
+    model_dif.fit(SR_data_dif)
+
+    return lstm_model, model_dif
+
+
 def preprocess_and_train(dataset, category, window_size, epochs, weight, weighting_func, section_threshold=None, peak_threshold=None):
     dataset = dataset.dropna(subset=['Category'])
     
