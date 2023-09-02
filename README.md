@@ -21,3 +21,8 @@
  
 ## 발전
 ▶ 실시간 측정 데이터 수집 및 DB 적재 시스템 구축 
+
+## 결론
+▶ lstm auto encoder로 가중치의 정도를 어느정도로 할지 추정함
+▶ lstm을 통해 window size 이후의 값 predict
+▶ 10개의 anomaly 지점을 graph 분석을 해본 결과 정상 지점에 비해 peak의 값(value)과 width가 상대적으로 낮게 나와 이를 바탕으로 발전시키면 좋을 거 같다.
