@@ -40,3 +40,7 @@ Spectral Residual <br>
 - FFT로 로그 스펙트럼 변환을 수행한 후 <br>
 - Spectral Residual 절차를 거친 후 <br>
 - 도출된 변환 스펙트럼을 다시 역FFT로 원래 데이터로 돌린다. <br>
+
+<br>
+SR-CNN <br>
+Spectral-Residual을 일종의 전처리기로 활용한 후, 이상 지점이 도드라진 데이터에 대하여 CNN을 적용하여 이상이 있는 지점을 판별하는 이상 감지기로 활용
