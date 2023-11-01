@@ -40,8 +40,8 @@ Spectral Residual <br>
 - FFT로 로그 스펙트럼 변환을 수행한 후 <br>
 - Spectral Residual 절차를 거친 후 <br>
 - 도출된 변환 스펙트럼을 다시 역FFT로 원래 데이터로 돌린다. <br>
- [자료](https://velog.io/@jsshin2022/Paper-Review-Time-Series-Anomaly-Detection-Service-at-Microsoft)
-![image](https://github.com/ru2zi/PdM-Dishwashers_Anomaly_Detection/assets/91187038/3bfac259-37ab-4af6-8fb9-55921a59e78e)
+
+[image](https://github.com/ru2zi/PdM-Dishwashers_Anomaly_Detection/assets/91187038/3bfac259-37ab-4af6-8fb9-55921a59e78e)
 
 
 <br>
