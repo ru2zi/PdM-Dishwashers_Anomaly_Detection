@@ -29,7 +29,7 @@
 
 
 ## 추가적으로 보완했으면 좋았을 부분 
-▶ 시간 도메인에서 이상 구간을 식별하고 해당 부분의 데이터를 분리합니다. <br>
+▶ 시간 도메인에서 이상 구간을 식별하고 해당 부분의 데이터를 분리 <br>
 ▶ 분리한 이상 구간에 대해 푸리에 변환을 수행합니다. 이 작업을 통해 해당 이상 부분이 어떤 주파수 성분으로 표현되는지 확인할 수 있습니다.<br>
 ▶ 푸리에 변환 결과에서 주파수 성분의 크기 또는 진폭 정보를 살펴봅니다. 낮은 진폭을 갖는 주파수 성분을 확인하면 이상 구간이 주파수 도메인에서 어떤 주파수 영역에 해당하는지 알 수 있습니다.<br>
 ▶ 이를 통해 구체적인 이상 신호를 탐지
@@ -40,6 +40,9 @@ Spectral Residual <br>
 - FFT로 로그 스펙트럼 변환을 수행한 후 <br>
 - Spectral Residual 절차를 거친 후 <br>
 - 도출된 변환 스펙트럼을 다시 역FFT로 원래 데이터로 돌린다. <br>
+ [자료](https://velog.io/@jsshin2022/Paper-Review-Time-Series-Anomaly-Detection-Service-at-Microsoft)
+![image](https://github.com/ru2zi/PdM-Dishwashers_Anomaly_Detection/assets/91187038/3bfac259-37ab-4af6-8fb9-55921a59e78e)
+
 
 <br>
 SR-CNN <br>
