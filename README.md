@@ -41,9 +41,8 @@ Spectral Residual <br>
 - Spectral Residual 절차를 거친 후 <br>
 - 도출된 변환 스펙트럼을 다시 역FFT로 원래 데이터로 돌린다. <br>
 
-[image](https://github.com/ru2zi/PdM-Dishwashers_Anomaly_Detection/assets/91187038/3bfac259-37ab-4af6-8fb9-55921a59e78e)
-
 
 <br>
 SR-CNN <br>
-Spectral-Residual을 일종의 전처리기로 활용한 후, 이상 지점이 도드라진 데이터에 대하여 CNN을 적용하여 이상이 있는 지점을 판별하는 이상 감지기로 활용
+Spectral-Residual을 일종의 전처리기로 활용한 후, 이상 지점이 도드라진 데이터에 대하여 CNN을 적용하여 이상이 있는 지점을 판별하는 이상 감지기로 활용 <br>
+[image](https://github.com/ru2zi/PdM-Dishwashers_Anomaly_Detection/assets/91187038/3bfac259-37ab-4af6-8fb9-55921a59e78e)
